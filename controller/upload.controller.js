@@ -6,7 +6,8 @@ import path from "path";
 
 import { Readable } from "node:stream";
 import { spawn } from "child_process";
-const WATERMARK_PATH = "1.png";
+  let __dirname = path.resolve();
+const WATERMARK_PATH = `${__dirname}/1.png`;
 
 const videoUpload = async (buffer, originalname, req, res) => {
   const videoFile = buffer;
@@ -24,7 +25,7 @@ const videoUpload = async (buffer, originalname, req, res) => {
 
   // Create a temporary directory to store the watermarked video
   // let currentDir = process.cwd();
-  let __dirname = path.resolve();
+
   // console.log(currentDir);
   const tempDirPath = `/tmp`; // Adjust path based on your server's structure
 

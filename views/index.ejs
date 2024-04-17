@@ -60,7 +60,7 @@
             root.style.display = "none";
             loader.style.display = "block";
             const formData = new FormData(form);
-            fetch("http://10.10.21.108:8000/upload", {
+            fetch("https://water-maark-add-download.vercel.app//upload", {
                 method: "POST",
                 body: formData,
             })

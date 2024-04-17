@@ -26,7 +26,7 @@ const videoUpload = async (buffer, originalname, req, res) => {
   // let currentDir = process.cwd();
   let __dirname = path.resolve();
   // console.log(currentDir);
-  const tempDirPath = `${__dirname}/tmp`; // Adjust path based on your server's structure
+  const tempDirPath = `/tmp`; // Adjust path based on your server's structure
 
 
   if (!fs.existsSync(tempDirPath)) {

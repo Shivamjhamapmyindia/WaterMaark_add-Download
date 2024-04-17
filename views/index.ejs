@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        body {
+            margin: 40px auto;
+            max-width: 650px;
+            line-height: 1.6;
+            font-size: 18px;
+            font-family: "Courier New", Courier, monospace;
+            color: #444;
+            padding: 0 10px;
+        }
+
+        h2 {
+            line-height: 1.2;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root" style="display: block;">
+        <!-- <i>Video Player</i>
+        <div style=" width: 100%; height: 50px;">
+            <select style="overflow: scroll;" id="videoSelect">
+                <option value="" selected>Select Video</option>
+            </select>
+        </div>
+        <video id="videoPlayer" width="650" height="400" controls muted="muted" autoplay>
+            <source src="" type="video/mp4" />
+        </video> -->
+        <h1>Upload Video</h1>
+        <form>
+            <input type="file" name="file" multiple />
+
+            <button type="submit" value="Upload Video">UPLOAD</button>
+        </form>
+
+        <!-- <button onclick="download()">Download Video</button> -->
+    </div>
+    <div>
+        <img id="loader" src="https://i.gifer.com/ZKZg.gif"
+            style="display: none; width: 100px; height: 300; margin: 0 auto ; margin-top: 300px ; z-index: 1;" />
+    </div>
+
+    <script>
+        const videoSelect = document.getElementById("videoSelect");
+        const videoPlayer = document.getElementById("videoPlayer");
+
+
+        const form = document.querySelector("form");
+        const loader = document.getElementById("loader");
+        const root = document.getElementById("root");
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            root.style.display = "none";
+            loader.style.display = "block";
+            const formData = new FormData(form);
+            fetch("http://10.10.21.108:8000/upload", {
+                method: "POST",
+                body: formData,
+            })
+                .then((res) => res.blob())
+                .then((blob) => {
+                    // console.log("Blob:", blob);
+                    if(blob.size<50){
+                        window.alert("No video selected");
+                        root.style.display = "block";
+                        loader.style.display = "none";
+                        return;
+                    }
+                            const url = window.URL.createObjectURL(new Blob([blob]));
+                            console.log("URL:", url);
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.setAttribute('download', 'video.mp4');  // Adjust filename
+                            link.style.display = 'none';  // Hide the link for automatic download
+                            document.body.appendChild(link);
+                            link.click();  // Simulate a click to trigger download
+                            window.URL.revokeObjectURL(url);  // Clean up memory after download
+                            root.style.display = "block";
+                           loader.style.display = "none";
+                        })
+                        .catch(error => {
+                            console.error("Error downloading video:", error);
+                            
+                        });
+        
+                });
+    
+
+
+    </script>
+</body>
+
+</html>
